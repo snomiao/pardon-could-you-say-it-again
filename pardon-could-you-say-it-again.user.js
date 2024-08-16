@@ -5,7 +5,7 @@
 // @grant       none
 // @version     1.0
 // @author      -
-// @description Press . or , to replay the last sentence slowly at 0.6x speed in any video/audio site like YouTube, Bilibili, or Spotify. This is useful when you're learning a language and want to ensure you understand every sentence correctly.
+// @description Press . or , to replay the last sentence slowly at 0.6x speed in any video/audio site like YouTube, Bilibili, or Spotify. This is useful when you're learning a language and want to ensure you understand every sentence correctly. Or learning instruments and want replay a section in slower speed.
 // ==/UserScript==
 
 const $$ = (sel) => [...document.querySelectorAll(sel)];
