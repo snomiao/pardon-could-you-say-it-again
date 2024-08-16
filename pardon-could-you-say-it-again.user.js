@@ -18,7 +18,6 @@
 // @run-at document-end
 // ==/UserScript==
 
-Feel free to further edit or modify the script to match your specific needs.
 const $$ = (sel) => [...document.querySelectorAll(sel)];
 
 const pardon = (dt = -2, speed = 0.8) => {
