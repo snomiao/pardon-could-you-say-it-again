@@ -30,6 +30,6 @@ const pardon = (dt = -2, speed = 0.8) => {
 };
 
 window.addEventListener("keydown", (e) => {
-  if (e.key === ",") pardon(-3, 0.8);
-  if (e.key === ".") pardon(0, 1.2);
+    if (e.code === "Comma") pardon(-3, 0.8);
+    if (e.code === "Period") pardon(0, 1.2);
 });
