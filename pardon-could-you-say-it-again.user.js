@@ -19,17 +19,28 @@
 // ==/UserScript==
 
 const $$ = (sel) => [...document.querySelectorAll(sel)];
-
-function pardon(dt = -2, speed = 0.8) {
+const tryIt = (fn) => {
+  try {
+    fn();
+  } catch (e) {}
+};
+const sleep = (ms)=>new Promise((r)=>setTimeout(r, ms))
+const stop = e=>(e.preventDefault(),e.stopPropagation())
+async function pardon(dt = 0, speed = 1, wait=0) {
   const vs = $$("video,audio");
   const v = vs.filter((e) => !e.paused)[0];
-  if (!v) return vs[0].play();
-
-  if (speed !== 1) v.playbackRate *= speed;
+  if (!v) return vs[0].click();
   if (dt !== 0) v.currentTime += dt;
+  if (speed !== 1)  v.playbackRate *= speed;
+  if(wait) await sleep(wait)
+  return true
 }
 
-window.addEventListener("keydown", (e) => {
-  if (e.code === "Comma") pardon(-3, 0.8);
-  if (e.code === "Period") pardon(0, 1.2);
-});
+window.addEventListener("keydown", async (e) => {
+  if(e.altKey || e.ctrlKey || e.metaKey) return;
+  if(['INPUT','TEXTAREA'].includes(document?.activeElement?.tagName)) return;
+  if (e.code === "Comma") await pardon(-3, 0.8) && stop(e);
+  if (e.code === "Period") await pardon(0, 1.2) && stop(e);
+  if (e.code === "ArrowLeft") await pardon(-1, 1) && stop(e);
+  if (e.code === "ArrowRight") await pardon(0, 4, 4) && await pardon(0,1/4) && stop(e);
+}, {capture: true});
