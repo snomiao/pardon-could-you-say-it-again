@@ -8,7 +8,7 @@
 // @namespace   Violentmonkey Scripts
 // @match       *://*/*
 // @grant       none
-// @version     1.1.0
+// @version     1.1.1
 // @description Press . or , to replay the last sentence slowly at 0.6x speed in any video/audio site like YouTube, Bilibili, or Spotify. This is useful when you're learning a language and want to ensure you understand every sentence correctly. Or learning instruments and want to replay a section at a slower speed.
 // @description:fr Appuyez sur . ou , pour rejouer la dernière phrase lentement à 0.6x de vitesse sur n'importe quel site vidéo/audio comme YouTube, Bilibili ou Spotify. C'est utile lorsque vous apprenez une langue et que vous voulez vous assurer de bien comprendre chaque phrase. Ou lorsque vous apprenez des instruments et que vous voulez rejouer une section à une vitesse plus lente.
 // @description:de Drücken Sie . oder , um den letzten Satz langsam mit 0,6-facher Geschwindigkeit auf jeder Video-/Audio-Seite wie YouTube, Bilibili oder Spotify erneut abzuspielen. Dies ist nützlich, wenn Sie eine Sprache lernen und sicherstellen möchten, dass Sie jeden Satz korrekt verstehen. Oder wenn Sie Instrumente lernen und einen Abschnitt in langsamer Geschwindigkeit wiederholen möchten.
@@ -24,23 +24,29 @@ const tryIt = (fn) => {
     fn();
   } catch (e) {}
 };
-const sleep = (ms)=>new Promise((r)=>setTimeout(r, ms))
-const stop = e=>(e.preventDefault(),e.stopPropagation())
-async function pardon(dt = 0, speed = 1, wait=0) {
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+const stop = (e) => (e.preventDefault(), e.stopPropagation());
+async function pardon(dt = 0, speed = 1, wait = 0) {
   const vs = $$("video,audio");
   const v = vs.filter((e) => !e.paused)[0];
   if (!v) return vs[0].click();
   if (dt !== 0) v.currentTime += dt;
-  if (speed !== 1)  v.playbackRate *= speed;
-  if(wait) await sleep(wait)
-  return true
+  if (speed !== 1) v.playbackRate *= speed;
+  if (wait) await sleep(wait);
+  return true;
 }
 
-window.addEventListener("keydown", async (e) => {
-  if(e.altKey || e.ctrlKey || e.metaKey) return;
-  if(['INPUT','TEXTAREA'].includes(document?.activeElement?.tagName)) return;
-  if (e.code === "Comma") await pardon(-3, 0.8) && stop(e);
-  if (e.code === "Period") await pardon(0, 1.2) && stop(e);
-  if (e.code === "ArrowLeft") await pardon(-1, 1) && stop(e);
-  if (e.code === "ArrowRight") await pardon(0, 4, 4) && await pardon(0,1/4) && stop(e);
-}, {capture: true});
+window.addEventListener(
+  "keydown",
+  async (e) => {
+    if (e.altKey || e.ctrlKey || e.metaKey) return;
+    if (["INPUT", "TEXTAREA"].includes(document?.activeElement?.tagName))
+      return;
+    if (e.code === "Comma") (await pardon(-3, 0.8)) && stop(e);
+    if (e.code === "Period") (await pardon(0, 1.2)) && stop(e);
+    if (e.code === "ArrowLeft") (await pardon(-1, 1)) && stop(e);
+    if (e.code === "ArrowRight")
+      (await pardon(0, 4, 4)) && (await pardon(0, 1 / 4)) && stop(e);
+  },
+  { capture: true }
+);
