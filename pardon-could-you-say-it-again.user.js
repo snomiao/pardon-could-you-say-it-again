@@ -40,7 +40,7 @@ window.addEventListener(
   "keydown",
   async (e) => {
     if (e.altKey || e.ctrlKey || e.metaKey) return;
-    if (document?.activeElement?.contentEditable)
+    if (document?.activeElement?.isContentEditable)
       return;
     if (["INPUT", "TEXTAREA"].includes(document?.activeElement?.tagName))
       return;
