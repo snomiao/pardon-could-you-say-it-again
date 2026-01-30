@@ -1,25 +1,25 @@
 // ==UserScript==
-// @name        Pardon, could you say it again?
-// @name:fr     Pardonnez-moi, pouvez-vous le répéter?
-// @name:de     Entschuldigung, könnten Sie es noch einmal sagen?
-// @name:es     Perdón, ¿puedes decirlo otra vez?
-// @name:zh-CN  不好意思，你能再说一遍吗？
-// @name:ja     すみません、もう一度言っていただけますか？
-// @name:ko     죄송합니다, 다시 말씀해 주시겠어요?
-// @name:pt     Desculpe, pode repetir?
-// @name:ru     Извините, не могли бы вы повторить?
-// @name:it     Scusi, può ripetere?
-// @name:nl     Sorry, kun je dat nog een keer zeggen?
-// @name:sv     Ursäkta, kan du säga det igen?
-// @name:ar     عذراً، هل يمكنك أن تقول ذلك مرة أخرى؟
-// @name:hi     माफ़ करिए, क्या आप इसे फिर से कह सकते हैं?
-// @name:tr     Pardon, tekrar söyleyebilir misiniz?
-// @name:pl     Przepraszam, czy mógłbyś to powtórzyć?
-// @namespace   Violentmonkey Scripts
-// @match       *://*/*
-// @grant       none
-// @version     1.2.2
-// @description Press . or , to replay the last sentence slowly at 0.6x speed in any video/audio site like YouTube, Bilibili, or Spotify. This is useful when you're learning a language and want to ensure you understand every sentence correctly. Or learning instruments and want to replay a section at a slower speed.
+// @name           Pardon, could you say it again?
+// @name:fr        Pardonnez-moi, pouvez-vous le répéter?
+// @name:de        Entschuldigung, könnten Sie es noch einmal sagen?
+// @name:es        Perdón, ¿puedes decirlo otra vez?
+// @name:zh-CN     不好意思，你能再说一遍吗？
+// @name:ja        すみません、もう一度言っていただけますか？
+// @name:ko        죄송합니다, 다시 말씀해 주시겠어요?
+// @name:pt        Desculpe, pode repetir?
+// @name:ru        Извините, не могли бы вы повторить?
+// @name:it        Scusi, può ripetere?
+// @name:nl        Sorry, kun je dat nog een keer zeggen?
+// @name:sv        Ursäkta, kan du säga det igen?
+// @name:ar        عذراً، هل يمكنك أن تقول ذلك مرة أخرى؟
+// @name:hi        माफ़ करिए, क्या आप इसे फिर से कह सकते हैं?
+// @name:tr        Pardon, tekrar söyleyebilir misiniz?
+// @name:pl        Przepraszam, czy mógłbyś to powtórzyć?
+// @namespace      Violentmonkey Scripts
+// @match          *://*/*
+// @grant          none
+// @version        1.2.2
+// @description    Press . or , to replay the last sentence slowly at 0.6x speed in any video/audio site like YouTube, Bilibili, or Spotify. This is useful when you're learning a language and want to ensure you understand every sentence correctly. Or learning instruments and want to replay a section at a slower speed.
 // @description:fr Appuyez sur . ou , pour rejouer la dernière phrase lentement à 0.6x de vitesse sur n'importe quel site vidéo/audio comme YouTube, Bilibili ou Spotify. C'est utile lorsque vous apprenez une langue et que vous voulez vous assurer de bien comprendre chaque phrase. Ou lorsque vous apprenez des instruments et que vous voulez rejouer une section à une vitesse plus lente.
 // @description:de Drücken Sie . oder , um den letzten Satz langsam mit 0,6-facher Geschwindigkeit auf jeder Video-/Audio-Seite wie YouTube, Bilibili oder Spotify erneut abzuspielen. Dies ist nützlich, wenn Sie eine Sprache lernen und sicherstellen möchten, dass Sie jeden Satz korrekt verstehen. Oder wenn Sie Instrumente lernen und einen Abschnitt in langsamer Geschwindigkeit wiederholen möchten.
 // @description:es Presiona . o , para reproducir la última oración lentamente a 0.6x de velocidad en cualquier sitio de video/audio como YouTube, Bilibili o Spotify. Esto es útil cuando estás aprendiendo un idioma y quieres asegurarte de entender cada frase correctamente. O aprendiendo instrumentos y deseas reproducir una sección a una velocidad más lenta.
@@ -35,7 +35,10 @@
 // @description:hi . या , दबाकर YouTube, Bilibili, या Spotify जैसी किसी भी वीडियो/ऑडियो साइट पर अंतिम वाक्य को 0.6x गति से धीरे-धीरे दोहराएं। यह तब उपयोगी है जब आप कोई भाषा सीख रहे हैं और यह सुनिश्चित करना चाहते हैं कि आप हर वाक्य को सही तरीके से समझते हैं। या जब आप संगीत वाद्ययंत्र सीख रहे हैं और किसी खंड को धीमी गति से दोहराना चाहते हैं।
 // @description:tr YouTube, Bilibili veya Spotify gibi herhangi bir video/ses sitesinde son cümleyi 0.6x hızda yavaşça tekrar oynatmak için . veya , tuşuna basın. Bu, bir dil öğrenirken her cümleyi doğru anladığınızdan emin olmak istediğinizde yararlıdır. Veya enstrüman öğrenirken bir bölümü daha yavaş hızda tekrar oynatmak istediğinizde kullanışlıdır.
 // @description:pl Naciśnij . lub , aby odtworzyć ostatnie zdanie powoli z prędkością 0.6x na dowolnej stronie wideo/audio, takiej jak YouTube, Bilibili lub Spotify. Jest to przydatne, gdy uczysz się języka i chcesz upewnić się, że rozumiesz każde zdanie poprawnie. Lub gdy uczysz się gry na instrumentach i chcesz odtworzyć fragment z wolniejszą prędkością.
-// @run-at      document-end
+// @run-at         document-end
+// @supportURL     https://github.com/snomiao/pardon-could-you-say-it-again
+// @downloadURL    https://update.greasyfork.org/scripts/503802/Pardon%2C%20could%20you%20say%20it%20again.user.js
+// @updateURL      https://update.greasyfork.org/scripts/503802/Pardon%2C%20could%20you%20say%20it%20again.meta.js
 // ==/UserScript==
 
 const $$ = (sel) => [...document.querySelectorAll(sel)];
@@ -46,12 +49,35 @@ const tryIt = (fn) => {
 };
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const stop = (e) => (e.preventDefault(), e.stopPropagation());
+const tap = (f) => (e) => (f(e), e);
+const el = (props) => Object.assign(document.createElement(props.tagName || "div"), props);
+const flashElement = (el, ms = 500) => (
+  document.body.appendChild(el), setTimeout(() => el.remove(), ms)
+);
+const centerTooltip = (textContent = "") =>
+  flashElement(
+    el({
+      textContent,
+      style:
+        "position: fixed; top: 50%; left: 50%; background: #0008; color: white; padding: 0.5rem; border-radius: 1rem; shadow",
+    }),
+  );
+// centerTooltip('use , . to control video speed')
+
+const renderTime = (t) =>
+  [(t / 3600) | 0, (t / 60) | 0, (t % 60) | 0].map((e) => e.toString().padStart(2, 0)).join(":"); // hh:mm:ss
+const renderSpeed = (s) => "x" + s.toFixed(2);
 async function pardon(dt = 0, speed = 1, wait = 0) {
   const vs = $$("video,audio");
   const v = vs.filter((e) => !e.paused)[0];
-  if (!v) return vs[0]?.click(); 
+  if (!v) return vs[0]?.click();
   if (dt !== 0) v.currentTime += dt;
   if (speed !== 1) v.playbackRate *= speed;
+
+  centerTooltip(
+    (dt < 0 ? "<-" : "->") + " " + renderTime(v.currentTime) + " " + renderSpeed(v.playbackRate),
+  );
+
   if (wait) await sleep(wait);
   return true;
 }
@@ -60,15 +86,12 @@ window.addEventListener(
   "keydown",
   async (e) => {
     if (e.altKey || e.ctrlKey || e.metaKey) return;
-    if (document?.activeElement?.isContentEditable)
-      return;
-    if (["INPUT", "TEXTAREA"].includes(document?.activeElement?.tagName))
-      return;
+    if (document?.activeElement?.isContentEditable) return;
+    if (["INPUT", "TEXTAREA"].includes(document?.activeElement?.tagName)) return;
     if (e.code === "Comma") (await pardon(-3, 0.8)) && stop(e);
     if (e.code === "Period") (await pardon(0, 1.2)) && stop(e);
     if (e.code === "ArrowLeft") (await pardon(-1, 1)) && stop(e);
-    if (e.code === "ArrowRight")
-      (await pardon(0, 4, 4)) && (await pardon(0, 1 / 4)) && stop(e);
+    if (e.code === "ArrowRight") (await pardon(0, 4, 4)) && (await pardon(0, 1 / 4)) && stop(e);
   },
-  { capture: true }
+  { capture: true },
 );
