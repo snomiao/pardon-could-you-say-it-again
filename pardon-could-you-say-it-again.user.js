@@ -36,7 +36,7 @@
 // @description:tr YouTube, Bilibili veya Spotify gibi herhangi bir video/ses sitesinde son cümleyi 0.6x hızda yavaşça tekrar oynatmak için . veya , tuşuna basın. Bu, bir dil öğrenirken her cümleyi doğru anladığınızdan emin olmak istediğinizde yararlıdır. Veya enstrüman öğrenirken bir bölümü daha yavaş hızda tekrar oynatmak istediğinizde kullanışlıdır.
 // @description:pl Naciśnij . lub , aby odtworzyć ostatnie zdanie powoli z prędkością 0.6x na dowolnej stronie wideo/audio, takiej jak YouTube, Bilibili lub Spotify. Jest to przydatne, gdy uczysz się języka i chcesz upewnić się, że rozumiesz każde zdanie poprawnie. Lub gdy uczysz się gry na instrumentach i chcesz odtworzyć fragment z wolniejszą prędkością.
 // @run-at         document-end
-// @supportURL     https://github.com/snomiao/pardon-could-you-say-it-again
+// @supportURL     https://github.com/snomiao/pardon-could-you-say-it-again/issues
 // @downloadURL    https://update.greasyfork.org/scripts/503802/Pardon%2C%20could%20you%20say%20it%20again.user.js
 // @updateURL      https://update.greasyfork.org/scripts/503802/Pardon%2C%20could%20you%20say%20it%20again.meta.js
 // ==/UserScript==
