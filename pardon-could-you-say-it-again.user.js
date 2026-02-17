@@ -130,7 +130,8 @@ tryIt(function createTouchUI() {
   const initDrag = (clientX, clientY) => {
     isDrag = false; dragging = true;
     const r = container.getBoundingClientRect();
-    startX = clientX; startY = clientY; startLeft = r.left; startTop = r.top;
+    startX = clientX; startY = clientY;
+    startLeft = r.left; startTop = r.top;
     container.style.transform = 'none';
     container.style.bottom = 'auto';
     container.style.left = startLeft + 'px';
@@ -139,8 +140,17 @@ tryIt(function createTouchUI() {
   const moveDrag = (clientX, clientY) => {
     if (!dragging) return;
     const dx = clientX - startX, dy = clientY - startY;
-    if (!isDrag && Math.abs(dx) + Math.abs(dy) > 6) isDrag = true;
-    if (isDrag) { container.style.left = (startLeft + dx) + 'px'; container.style.top = (startTop + dy) + 'px'; }
+    if (!isDrag && Math.abs(dx) + Math.abs(dy) > 6) {
+      isDrag = true;
+      // Snap so the container centre sits exactly under the finger/cursor.
+      // This gives a predictable fixed offset from the drag point to each button,
+      // regardless of where on the container the user originally touched.
+      const r = container.getBoundingClientRect();
+      startLeft = clientX - r.width / 2;
+      startTop = clientY - r.height / 2;
+      startX = clientX; startY = clientY;
+    }
+    if (isDrag) { container.style.left = (startLeft + (clientX - startX)) + 'px'; container.style.top = (startTop + (clientY - startY)) + 'px'; }
   };
   const stopDrag = () => { dragging = false; };
 

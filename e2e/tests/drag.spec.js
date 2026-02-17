@@ -33,6 +33,27 @@ test.describe('Draggable floating button container', () => {
     expect(box.y + box.height).toBeGreaterThan(vh - 300);
   });
 
+  // ── Snap-to-centre on drag start ────────────────────────────────────────────
+
+  test('container centre snaps under the finger when drag starts off-centre', async ({ page }) => {
+    const before = await containerBox(page);
+    // Touch the far-left edge of the container (not the centre)
+    const touchX = before.x + 4;
+    const touchY = before.y + before.height / 2;
+
+    await page.mouse.move(touchX, touchY);
+    await page.mouse.down();
+    // Move past the 6-px threshold to trigger the snap
+    await page.mouse.move(touchX + 10, touchY, { steps: 3 });
+
+    const after = await containerBox(page);
+    const centerX = after.x + after.width / 2;
+    // Centre of container should now be within ±10 px of the drag point
+    expect(Math.abs(centerX - (touchX + 10))).toBeLessThan(10);
+
+    await page.mouse.up();
+  });
+
   // ── Mouse drag ──────────────────────────────────────────────────────────────
 
   test('mouse drag moves the container', async ({ page }) => {
