@@ -18,7 +18,7 @@
 // @namespace      Violentmonkey Scripts
 // @match          *://*/*
 // @grant          none
-// @version        1.3.0
+// @version        1.4.0
 // @description    Press . or , to replay the last sentence slowly at 0.6x speed in any video/audio site like YouTube, Bilibili, or Spotify. This is useful when you're learning a language and want to ensure you understand every sentence correctly. Or learning instruments and want to replay a section at a slower speed.
 // @description:fr Appuyez sur . ou , pour rejouer la dernière phrase lentement à 0.6x de vitesse sur n'importe quel site vidéo/audio comme YouTube, Bilibili ou Spotify. C'est utile lorsque vous apprenez une langue et que vous voulez vous assurer de bien comprendre chaque phrase. Ou lorsque vous apprenez des instruments et que vous voulez rejouer une section à une vitesse plus lente.
 // @description:de Drücken Sie . oder , um den letzten Satz langsam mit 0,6-facher Geschwindigkeit auf jeder Video-/Audio-Seite wie YouTube, Bilibili oder Spotify erneut abzuspielen. Dies ist nützlich, wenn Sie eine Sprache lernen und sicherstellen möchten, dass Sie jeden Satz korrekt verstehen. Oder wenn Sie Instrumente lernen und einen Abschnitt in langsamer Geschwindigkeit wiederholen möchten.
@@ -95,6 +95,73 @@ window.addEventListener(
   },
   { capture: true },
 );
+
+// Mobile floating buttons (draggable, touch devices)
+tryIt(function createTouchUI() {
+  const container = document.createElement('div');
+  container.style.cssText = [
+    'position:fixed', 'bottom:80px', 'left:50%', 'transform:translateX(-50%)',
+    'display:flex', 'gap:12px', 'z-index:2147483647',
+    'user-select:none', 'touch-action:none',
+  ].join(';');
+
+  let isDrag = false, dragging = false;
+  let startX = 0, startY = 0, startLeft = 0, startTop = 0;
+
+  const makeBtn = (text, action) => {
+    const btn = document.createElement('button');
+    btn.textContent = text;
+    btn.style.cssText = [
+      'padding:14px 24px', 'border-radius:999px', 'border:none',
+      'background:rgba(0,0,0,0.55)', 'color:white', 'font-size:17px',
+      'font-weight:bold', 'cursor:pointer', 'touch-action:manipulation',
+      'backdrop-filter:blur(6px)', '-webkit-backdrop-filter:blur(6px)',
+      'box-shadow:0 2px 12px rgba(0,0,0,0.3)',
+    ].join(';');
+    btn.addEventListener('click', (e) => {
+      if (isDrag) { e.preventDefault(); e.stopPropagation(); return; }
+      action();
+    });
+    return btn;
+  };
+
+  container.append(makeBtn('⏪ Pardon', () => pardon(-3, 0.8)), makeBtn('⏩ Faster', () => pardon(0, 1.2)));
+
+  const initDrag = (clientX, clientY) => {
+    isDrag = false; dragging = true;
+    const r = container.getBoundingClientRect();
+    startX = clientX; startY = clientY; startLeft = r.left; startTop = r.top;
+    container.style.transform = 'none';
+    container.style.bottom = 'auto';
+    container.style.left = startLeft + 'px';
+    container.style.top = startTop + 'px';
+  };
+  const moveDrag = (clientX, clientY) => {
+    if (!dragging) return;
+    const dx = clientX - startX, dy = clientY - startY;
+    if (!isDrag && Math.abs(dx) + Math.abs(dy) > 6) isDrag = true;
+    if (isDrag) { container.style.left = (startLeft + dx) + 'px'; container.style.top = (startTop + dy) + 'px'; }
+  };
+  const stopDrag = () => { dragging = false; };
+
+  container.addEventListener('touchstart', (e) => initDrag(e.touches[0].clientX, e.touches[0].clientY), { passive: true });
+  container.addEventListener('touchmove', (e) => { if (dragging) { e.preventDefault(); moveDrag(e.touches[0].clientX, e.touches[0].clientY); } }, { passive: false });
+  container.addEventListener('touchend', stopDrag, { passive: true });
+  container.addEventListener('mousedown', (e) => {
+    initDrag(e.clientX, e.clientY);
+    const onMove = (e) => moveDrag(e.clientX, e.clientY);
+    const onUp = () => { stopDrag(); document.removeEventListener('mousemove', onMove); document.removeEventListener('mouseup', onUp); };
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup', onUp);
+  });
+
+  const show = () => { container.style.display = 'flex'; };
+  const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+  container.style.display = isTouchDevice ? 'flex' : 'none';
+  if (!isTouchDevice) document.addEventListener('touchstart', show, { once: true });
+
+  document.body.appendChild(container);
+});
 
 tryIt(() => {
   let vcid = null
