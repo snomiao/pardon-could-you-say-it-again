@@ -18,7 +18,7 @@
 // @namespace      Violentmonkey Scripts
 // @match          *://*/*
 // @grant          none
-// @version        1.4.0
+// @version        1.5.0
 // @description    Press . or , to replay the last sentence slowly at 0.6x speed in any video/audio site like YouTube, Bilibili, or Spotify. This is useful when you're learning a language and want to ensure you understand every sentence correctly. Or learning instruments and want to replay a section at a slower speed.
 // @description:fr Appuyez sur . ou , pour rejouer la dernière phrase lentement à 0.6x de vitesse sur n'importe quel site vidéo/audio comme YouTube, Bilibili ou Spotify. C'est utile lorsque vous apprenez une langue et que vous voulez vous assurer de bien comprendre chaque phrase. Ou lorsque vous apprenez des instruments et que vous voulez rejouer une section à une vitesse plus lente.
 // @description:de Drücken Sie . oder , um den letzten Satz langsam mit 0,6-facher Geschwindigkeit auf jeder Video-/Audio-Seite wie YouTube, Bilibili oder Spotify erneut abzuspielen. Dies ist nützlich, wenn Sie eine Sprache lernen und sicherstellen möchten, dass Sie jeden Satz korrekt verstehen. Oder wenn Sie Instrumente lernen und einen Abschnitt in langsamer Geschwindigkeit wiederholen möchten.
@@ -143,16 +143,30 @@ tryIt(function createTouchUI() {
     if (!isDrag && Math.abs(dx) + Math.abs(dy) > 6) {
       isDrag = true;
       // Snap so the container centre sits exactly under the finger/cursor.
-      // This gives a predictable fixed offset from the drag point to each button,
-      // regardless of where on the container the user originally touched.
       const r = container.getBoundingClientRect();
       startLeft = clientX - r.width / 2;
       startTop = clientY - r.height / 2;
       startX = clientX; startY = clientY;
     }
-    if (isDrag) { container.style.left = (startLeft + (clientX - startX)) + 'px'; container.style.top = (startTop + (clientY - startY)) + 'px'; }
+    if (isDrag) {
+      const r = container.getBoundingClientRect();
+      const newLeft = startLeft + (clientX - startX);
+      const newTop = startTop + (clientY - startY);
+      container.style.left = Math.max(0, Math.min(window.innerWidth - r.width, newLeft)) + 'px';
+      container.style.top = Math.max(0, Math.min(window.innerHeight - r.height, newTop)) + 'px';
+    }
   };
-  const stopDrag = () => { dragging = false; };
+  const stopDrag = () => {
+    if (isDrag) {
+      try {
+        localStorage.setItem('pardon_pos', JSON.stringify({
+          x: parseInt(container.style.left),
+          y: parseInt(container.style.top),
+        }));
+      } catch {}
+    }
+    dragging = false;
+  };
 
   container.addEventListener('touchstart', (e) => initDrag(e.touches[0].clientX, e.touches[0].clientY), { passive: true });
   container.addEventListener('touchmove', (e) => { if (dragging) { e.preventDefault(); moveDrag(e.touches[0].clientX, e.touches[0].clientY); } }, { passive: false });
@@ -171,6 +185,18 @@ tryIt(function createTouchUI() {
   if (!isTouchDevice) document.addEventListener('touchstart', show, { once: true });
 
   document.body.appendChild(container);
+
+  // Restore saved position after mount so getBoundingClientRect gives real dimensions
+  try {
+    const saved = JSON.parse(localStorage.getItem('pardon_pos') || 'null');
+    if (saved) {
+      const r = container.getBoundingClientRect();
+      container.style.transform = 'none';
+      container.style.bottom = 'auto';
+      container.style.left = Math.max(0, Math.min(window.innerWidth - r.width, saved.x)) + 'px';
+      container.style.top = Math.max(0, Math.min(window.innerHeight - r.height, saved.y)) + 'px';
+    }
+  } catch {}
 });
 
 tryIt(() => {
